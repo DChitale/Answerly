@@ -44,7 +44,7 @@ async function handleSubmit(e) {
  console.log(cleanedQuestion);
  
   
-  const response = await axios.post('http://localhost:5000/answer', {
+  const response = await axios.post(import.meta.env.VITE_BACKEND_API, {
     question: cleanedQuestion,
   })
 
@@ -55,7 +55,7 @@ async function handleSubmit(e) {
   return (
     <div>
   <section className="w-full h-screen flex flex-col items-center justify-center p-4
-  bg-[linear-gradient(135deg,#ffcf57_0%,#fec243_20%,#e09848_40%,#a56e63_60%,#505e84_80%,#007398_100%)]">
+  bg-gradient-to-r from-slate-900 to-slate-700">
 
     <div><h1 className='text-white custom-font text-5xl lg:text-8xl'>Answerly</h1></div>
    <div
