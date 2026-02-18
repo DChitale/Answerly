@@ -5,6 +5,7 @@ import './index.css'
 const App = () => {
 
    const [answer, setAnswer] = useState('');
+   const [question, setQuestion] = useState('');
 function cleanQuestion(text) {
   if (!text || typeof text !== 'string') return ''
 
@@ -29,7 +30,7 @@ function cleanQuestion(text) {
 
   // Collapse multiple spaces and trim
   out = out.replace(/\s{2,}/g, ' ').trim()
-
+  setQuestion(out);
   return out
 }
 
@@ -44,7 +45,7 @@ async function handleSubmit(e) {
  console.log(cleanedQuestion);
  
   
-  const response = await axios.post(import.meta.env.VITE_BACKEND_API, {
+  const response = await axios.post(import.meta.env.VITE_BACKEND_API || 'http://localhost:5000/answer', {
     question: cleanedQuestion,
   })
 
@@ -96,6 +97,7 @@ async function handleSubmit(e) {
 
 
         </div>
+        <div className='flex justify-around'>
       <button
   type="submit"
   className="
@@ -111,12 +113,38 @@ async function handleSubmit(e) {
 >
   GET ANSWER
 </button>
+<button
+className="
+    rounded-2xl px-6 py-3 text-white font-semibold
+    bg-white/20
+    backdrop-blur-lg
+    border border-white/30
+    shadow-lg
+    hover:bg-white/30
+    hover:shadow-xl
+    transition-all duration-300
+  "
+  type="button"
+  onClick={(e) => {
+    const form = e.target.closest('form')
+    const rawQuestion = form.question.value
+    const cleaned = cleanQuestion(rawQuestion)
+
+    const url = `https://chat.openai.com/?q=${encodeURIComponent(cleaned)}`
+    window.open(url, '_blank')
+  }}
+>
+  Ask ChatGPT
+</button>
+
+
+</div>
 
       </form>
       </div>
-      <div className="w-full lg:w-[700px] lg:h-[400px] rounded-3xl p-6 bg-white/20 backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] mt-6">
+      <div className="w-full lg:w-[700px] lg:h-[250px] rounded-3xl p-6 bg-white/20 backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_0_rgba(31,38,135,0.37)] mt-6">
         <label htmlFor="answerInput" className='text-white mb-3'>Answer</label>
-        <textarea name="answer" id="answerInput" value={answer} className="w-full h-[200px] mt-4 rounded-2xl bg-white/20 backdrop-blur-lg border border-white/30 p-4 text-white placeholder-white/60 resize-none focus:outline-none focus:ring-2 focus:ring-white/40"></textarea>
+        <textarea name="answer" id="answerInput" value={answer} className="w-full h-[150px] mt-4 rounded-2xl bg-white/20 backdrop-blur-lg border border-white/30 p-4 text-white placeholder-white/60 resize-none focus:outline-none focus:ring-2 focus:ring-white/40"></textarea>
       </div>
    </section>
     </div>

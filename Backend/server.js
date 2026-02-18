@@ -19,7 +19,7 @@ app.post('/answer', async (req, res) => {
     const { question } = req.body
 
     const completion = await client.chat.completions.create({
-      model: 'provider-6/gpt-oss-20b',
+      model: 'provider-2/gemma-3-27b-it',
       messages: [
         {
           role: 'system',
